@@ -35,8 +35,6 @@ export default {
       pagActual: 1,
       tamPag: 5,
       totPags: 0,
-      // ligaApi: 'https://test-es.edamam.com/search?app_id=8cc0babf&app_key=21e010ae1d1b3b1db52c45ddf782d545',
-      // lagaApiEd: 'https://api.edamam.com/api/recipes/v2?type=public&beta=true&app_id=8cc0babf&app_key=21e010ae1d1b3b1db52c45ddf782d545&imageSize=REGULAR&random=true'
     }
   },
   computed:{
