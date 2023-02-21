@@ -14,7 +14,7 @@ export default {
 </script>
 <style scoped>
 .category-container{
-  border: 1px solid yellow;
+  border: 1px solid orange;
   padding: 50px;
 }
 </style>
