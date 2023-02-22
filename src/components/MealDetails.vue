@@ -1,7 +1,7 @@
 <template>
     <v-row class="ma-2" v-if="meals">
-        <v-col cols="3"></v-col>
-        <v-col cols="6">
+        <v-col cols="0" sm="2" md="2" lg="3"></v-col>
+        <v-col cols="12" sm="8" md="8" lg="6">
             <v-card class="mx-auto">
                 <v-img :src="meals.strMealThumb" v-bind:alt="meals.strMeal" cover>
                 </v-img>

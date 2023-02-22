@@ -1,6 +1,6 @@
 <template>
     <v-row class="ma-2">    
-        <v-col cols="4" v-for="cat in categorias" :key="cat.idCategory">
+        <v-col cols="12" sm="6" md="4" v-for="cat in categorias" :key="cat.idCategory">
             <v-card class="mx-auto altoUnif" @click="openCatList(cat.strCategory)">
                 <v-img :src="cat.strCategoryThumb" alt="Imagen de categoria" cover/>
 

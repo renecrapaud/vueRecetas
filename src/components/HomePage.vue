@@ -1,8 +1,10 @@
 <template>
-  <div style="white-space: nowrap;">
+  <div class="mb-2 whtSpc">
     <h3 class="floatLeft">Buscar recetas: </h3>
+    <br class="d-sm-none">
     <input type="text" v-model="search" v-on:keyup.enter="searchData" placeholder="Enter para buscar" 
     class="search-input floatLeft ml-4"/>
+    <br class="d-sm-none">
     <v-btn color="primary" class="ml-4" @click="searchData">
       Buscar
     </v-btn>
@@ -82,6 +84,9 @@ export default {
     }
     )
     .catch((err) => {
+      this.errors = err
+      this.categorias = null
+      this.meals = null
       console.log(err)
     })
   },
@@ -93,7 +98,6 @@ export default {
           this.meals = resp.data.meals
         })
         .catch((err) => {
-          this.errors = err
           console.log(err)
         })
       } else {
@@ -139,5 +143,8 @@ export default {
 }
 .floatLeft{
   display: inline-block;
+}
+.whtSpc{
+  white-space: nowrap;
 }
 </style>
