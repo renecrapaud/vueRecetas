@@ -1,6 +1,12 @@
 <template>
     <h3>{{ titulo_cat }}</h3>
-    <Meals v-bind:mealsResp="meals"></Meals>
+    <Meals v-if="meals" v-bind:mealsResp="meals"></Meals>
+    <v-progress-circular
+        v-else
+        :size="50"
+        color="primary"
+        indeterminate
+    ></v-progress-circular>
 </template>
 
 <script>
@@ -14,7 +20,7 @@ export default{
     data(){
         return {
             titulo_cat: this.$route.params.title,
-            meals:[],
+            meals:null,
             pags: 1,
             totPags: 1
         }

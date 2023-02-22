@@ -1,9 +1,27 @@
 <template>
-    <h3>Buscador de recetas</h3>
-    <input type="text" v-model="search" v-on:keyup.enter="searchData" placeholder="buscar Receta" class="search-input"/>
-    <Meals v-bind:mealsResp="meals"></Meals>
-    <div class="text-center">...</div>
-    <h3>Todas las categorías</h3>
+  <div style="white-space: nowrap;">
+    <h3 class="floatLeft">Buscar recetas: </h3>
+    <input type="text" v-model="search" v-on:keyup.enter="searchData" placeholder="Enter para buscar" 
+    class="search-input floatLeft ml-4"/>
+    <v-btn color="primary" class="ml-4" @click="searchData">
+      Buscar
+    </v-btn>
+    <v-btn color="error" class="ml-4" @click="limpiarBusqueda">
+      Limpiar
+    </v-btn>
+  </div>
+  <v-alert
+    v-if="errors"
+    density="compact"
+    type="warning"
+    title="Alerta"
+    text="No se obtuvieron resultados"
+  ></v-alert>
+   
+  <Meals v-if="meals" v-bind:mealsResp="meals"></Meals>
+  
+  <div v-if="categorias && !meals">
+    <h3>Por categorías</h3>
     <item-categoria v-bind:categorias="paginado"></item-categoria>
     <div class="text-center">
       Actual: {{ pagActual }} de {{ totPags }}
@@ -11,6 +29,13 @@
     <div class="text-center">
       <a v-on:click="pagAnt" class="ligaPag">Anterior</a> | <a v-on:click="pagSig" class="ligaPag">Siguiente</a>
     </div>
+  </div>
+  <v-progress-circular
+    v-if="!meals && !categorias && !errors"
+    :size="50"
+    color="primary"
+    indeterminate
+  ></v-progress-circular>
 </template>
 <script>
 import axios from 'axios'
@@ -29,12 +54,13 @@ export default {
   },
   data(){
     return{
-      categorias:[],
-      meals:[],
+      categorias:null,
+      meals:null,
       search:'',
       pagActual: 1,
-      tamPag: 5,
+      tamPag: 3,
       totPags: 0,
+      errors: null
     }
   },
   computed:{
@@ -67,9 +93,11 @@ export default {
           this.meals = resp.data.meals
         })
         .catch((err) => {
+          this.errors = err
           console.log(err)
         })
       } else {
+        this.meals = null
         Swal.fire({
           title: 'Error!',
           text: 'Escriba el texto a buscar',
@@ -88,6 +116,10 @@ export default {
       if(this.pagActual < this.totPags){
         this.pagActual++
       }
+    },
+    limpiarBusqueda(){
+      this.meals = null
+      this.search = ''
     }
   }
 }
@@ -104,4 +136,8 @@ export default {
 
 .ligaPag{
   cursor: pointer;
-}</style>
+}
+.floatLeft{
+  display: inline-block;
+}
+</style>

@@ -1,11 +1,19 @@
 <template>
-    <div v-for="cat in categorias" :key="cat.idCategory">
-        <div @click="openCatList(cat.strCategory)" class="category-container">
-            <img :src="cat.strCategoryThumb" alt="Imagen de categoria">
-            <h6>{{ cat.strCategory }}</h6>
-            <p>{{ cat.strCategoryDescription }}</p>
-        </div>
-    </div>
+    <v-row class="ma-2">    
+        <v-col cols="4" v-for="cat in categorias" :key="cat.idCategory">
+            <v-card class="mx-auto altoUnif" @click="openCatList(cat.strCategory)">
+                <v-img :src="cat.strCategoryThumb" alt="Imagen de categoria" cover/>
+
+                <v-card-subtitle class="pt-4">
+                    {{ cat.strCategory }}
+                </v-card-subtitle>
+
+                <v-card-text class="textSect">
+                    <p class="textJust">{{ cat.strCategoryDescription }}</p>
+                </v-card-text>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -21,8 +29,14 @@ export default {
 }
 </script>
 <style scoped>
-.category-container{
-  border: 1px solid orange;
-  padding: 50px;
+.altoUnif{
+  height: 100%;
+}
+.textJust{
+    text-align: justify;
+}
+.textSect {
+    height: inherit;
+    background-color: aquamarine;
 }
 </style>

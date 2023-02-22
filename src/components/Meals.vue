@@ -1,11 +1,12 @@
 <template>
-    <div v-for="meal in mealsResp" :key="meal.idMeal">
-        <div @click="openMealDet(meal.idMeal)" class="category-container">
-            <img :src="meal.strMealThumb" alt="Imagen de categoria">
-            <p><b>{{ meal.strMeal }}</b></p>
-            <h6>Categoría: {{ meal.strCategory }} | Origen: {{ meal.strArea }}</h6>
-        </div>
-    </div>
+    <v-row class="ma-2">
+        <v-col cols="4" v-for="meal in mealsResp" :key="meal.idMeal">
+            <div @click="openMealDet(meal.idMeal)" >
+                <v-img :src="meal.strMealThumb" alt="Imagen de categoria" cover/>
+                <p><b>{{ meal.strMeal }}</b></p>
+            </div>
+        </v-col>
+    </v-row>
 </template>
 <script>
     export default{
