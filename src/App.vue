@@ -14,7 +14,7 @@
         <v-app-bar-title>RECETARIO</v-app-bar-title>
 
         <template v-slot:append>
-          <router-link to="/"><v-btn icon="mdi-dots-vertical">Inicio</v-btn></router-link>
+          <router-link to="/"><v-btn icon="mdi-dots-vertical"><v-icon icon="mdi-home" /></v-btn></router-link>
           
         </template>
       </v-app-bar>

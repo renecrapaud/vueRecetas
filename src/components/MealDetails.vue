@@ -11,11 +11,28 @@
                 </v-card-subtitle>
 
                 <v-card-text>
-                    <h3>Ingredientes</h3>
+                    <h3>Ingredientes
+                        <div class="tooltip">
+                            <v-icon icon="mdi-content-copy" v-on:click="copiarAlPortapapeles(ingredientes, 'ing')"/>
+                            <span v-bind:class ="showIngr ? 'tooltiptext' : 'hidden'">Copiado</span>
+                        </div>
+                    </h3>
                         <span v-for="(ingr, index) in ingredientes" :key="index">{{ ingr }}, </span>
-                    <h3 class="mt-3">Medidas</h3>
-                        <span v-for="(mide, index) in medidas" :key="index">{{ mide }} {{ ingredientes[index] }}, </span>
-                    <h3 class="ma-3">Instrucciones</h3>
+                    <h3 class="mt-3">Medidas
+                        <div class="tooltip">
+                            <v-icon icon="mdi-content-copy" v-on:click="copiarAlPortapapeles(medidas, 'm')"/>
+                            <span v-bind:class ="showMed ? 'tooltiptext' : 'hidden'">Copiado</span>
+                        </div>
+                    </h3>
+                        <span v-for="(mide, index) in medidas" :key="index">{{ mide }}, </span>
+                    <h3 class="ma-3">
+                        Instrucciones 
+                        <div class="tooltip">
+                            <v-icon icon="mdi-content-copy" v-on:click="copiarAlPortapapeles(meals.strInstructions,'itc')"/>
+                            <span v-bind:class ="showInstr ? 'tooltiptext' : 'hidden'">Copiado</span>
+                        </div>
+                    </h3>
+                    
                     <p class="textJust">{{ meals.strInstructions }}</p>
                 </v-card-text>
                 <v-card-actions>
@@ -53,29 +70,84 @@ export default{
         return {
             meals:null,
             ingredientes: [],
-            medidas: []
+            medidas: [],
+            showIngr: false,
+            showMed: false,
+            showInstr: false
         }
+    },
+    methods:{
+        copiarAlPortapapeles(instr, tooltip){
+            this.showTooltip(tooltip)
+            navigator.clipboard.writeText(instr)
+        },
+        showTooltip(tooltip) {
+            if(tooltip == 'ing') {
+                this.showIngr = true
+                this._timerId = setTimeout(() => this.showIngr = false, 3000)
+            }
+            if(tooltip == 'm') {
+                this.showMed = true
+                this._timerId = setTimeout(() => this.showMed = false, 3000)
+            }
+            if(tooltip == 'itc') {
+                this.showInstr = true
+                this._timerId = setTimeout(() => this.showInstr = false, 3000)
+            }
+     }
     },
     mounted(){
         axios.get('https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + this.$route.params.id)
         .then((res)=>{
             this.meals = res.data.meals[0]
-            // const ingredientes = []
-            Object.keys(this.meals).forEach(ingr => {
+            let medidaTmp = []
+            Object.keys(this.meals).forEach((ingr) => {
                 if(ingr.includes('Ingredient') && this.meals[ingr].trim()!== ''){
                     this.ingredientes.push(this.meals[ingr])
                 }
                 if(ingr.includes('Measure') && this.meals[ingr].trim()!== ''){
-                    this.medidas.push(this.meals[ingr])
+                    medidaTmp.push(this.meals[ingr])
                 }
             })
+            medidaTmp.forEach((medida, index) => {
+                this.medidas.push(medida + ' ' + this.ingredientes[index])
+            })
         })
+    },
+    beforeUnmount(){
+        clearTimeout(this._timerId)
     }
 }
 </script>
 
-<style>
+<style scoped>
     .textJust{
         text-align: justify;
+    }
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        /* border-bottom: 1px dotted black; */
+    }
+
+    .tooltip .tooltiptext {
+        /* visibility: hidden; */
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+    }
+
+    .tooltiptext {
+        visibility: visible !important;
+    }
+    .hidden{
+        visibility: hidden;
     }
 </style>
